@@ -14,16 +14,141 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      excuses: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          reason: string
+          status: string
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          id?: string
+          reason: string
+          status?: string
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          reason?: string
+          status?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "excuses_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_settings: {
+        Row: {
+          accent_color: string
+          excuse_limit: number
+          id: boolean
+          primary_color: string
+          site_subtitle: string
+          site_title: string
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string
+          excuse_limit?: number
+          id?: boolean
+          primary_color?: string
+          site_subtitle?: string
+          site_title?: string
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string
+          excuse_limit?: number
+          id?: boolean
+          primary_color?: string
+          site_subtitle?: string
+          site_title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      students: {
+        Row: {
+          class: string
+          created_at: string
+          excuses_count_this_month: number
+          id: string
+          last_excuse_reset: string
+          national_id: string
+          student_name: string
+        }
+        Insert: {
+          class: string
+          created_at?: string
+          excuses_count_this_month?: number
+          id?: string
+          last_excuse_reset?: string
+          national_id: string
+          student_name: string
+        }
+        Update: {
+          class?: string
+          created_at?: string
+          excuses_count_this_month?: number
+          id?: string
+          last_excuse_reset?: string
+          national_id?: string
+          student_name?: string
+        }
+        Relationships: []
+      }
+      users_roles: {
+        Row: {
+          created_at: string
+          id: string
+          national_id: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          national_id?: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          national_id?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "parent" | "director" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +275,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["parent", "director", "admin"],
+    },
   },
 } as const
